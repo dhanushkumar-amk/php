@@ -1,0 +1,13 @@
+<?php
+$strings = array('Arun', 'aravind','Archana','Ananya',);
+foreach ($strings as $testcase) {
+if (ctype_lower($testcase)) {
+echo "Yes\n";
+}
+else
+{
+echo "No\n";
+}
+}
+?>
+

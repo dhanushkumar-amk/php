@@ -1,0 +1,7 @@
+
+<?php
+$colors = array("Red", "Orange", "Yellow", "Green", "Blue", "Purple");
+foreach ($colors as $color) {
+ echo "<div style='background-color: $color; width: 100px; height: 50px;'>$color</div>";
+}
+?>
