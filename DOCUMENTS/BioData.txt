@@ -15,6 +15,9 @@ Educational Qualification:<input type=text name=qualification><br>
 </form>
 </body>
 </html>
+
+
+
 <?php
 if ($_POST) {
 echo "<h1>Biodata</h1>";
@@ -28,4 +31,3 @@ echo "Email: " . $_POST["email"] . "<br>";
 echo "Qualification: " . $_POST["qualification"] . "<br>";
 }
 ?>
-

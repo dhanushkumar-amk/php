@@ -1,74 +1,73 @@
-// php file
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
-<title>Untitled Document</title>
-</head>
-<body>
+PHP File:
+
 <?php
-$servername = "localhost";
+
+$host = "localhost";
 $username = "root";
 $password = "";
-$dbname = "dbshriya";
-$conn = new mysqli($servername, $username, $password, $dbname);
+$database = "dbshriya";
+
+$conn = new mysqli($host, $username, $password, $database);
+
 if ($conn->connect_error) {
-die("Connection failed: " . $conn->connect_error);
+    die("Connection failed: " . $conn->connect_error);
 }
-$name = $_POST['name'];
-$class = $_POST['class'];
-$age = $_POST['age'];
-$college = $_POST['college'];
-$year = $_POST['year'];
-$state = $_POST['state'];
-$sql = "INSERT INTO contacts (name, class, age, college, year, state)   VALUES ('$name', '$class', '$age', '$college', '$year', '$state')";
-if ($conn->query($sql) === TRUE) {
- echo "Message sent successfully!";
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $name = $_POST['name'];
+    $image = $_FILES['image']['tmp_name'];
+
+    $imgContent = addslashes(file_get_contents($image));
+
+    $sql = "INSERT INTO image_table (name, image) VALUES ('$name', '$imgContent')";
+    if ($conn->query($sql) === TRUE) {
+        echo "Image uploaded successfully.";
+    } else {
+        echo "Error: " . $sql . "<br>" . $conn->error;
+    }
+}
+
+$sql = "SELECT id, name, image FROM image_table";
+$result = $conn->query($sql);
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        echo "<h3>" . htmlspecialchars($row['name']) . "</h3>";
+
+        echo '<img src="data:image/jpeg;base64,' . base64_encode($row['image']) . '" width="300"><br><br>';
+    }
 } else {
- echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "No images found.";
 }
+
 $conn->close();
 ?>
-
-</body>
-</html>
 
 HTML File:
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
- <meta charset="UTF-8">
- <meta name="viewport" content="width=device-width, initial-scale=1.0">  <title>Contact Form</title>
+<metacharset="UTF-8">
+<title>UploadImage</title>
 </head>
 <body>
- <h2>Contact Us</h2>
- <form action="contactphp.php" method="post">
- <label for="name">Name:</label>
- <input type="text" name="name" required><br><br>
- <label for="class">Class:</label>
- <input type="text" name="class" required><br><br>
- <label for="age">Age:</label>
- <input type="number" name="age" required><br><br>
- <label for="college">College:</label>
- <input type="text" name="college" required><br><br>
- <label for="year">Year:</label>
- <input type="text" name="year" required><br><br>
- <label for="state">State:</label>
- <input type="text" name="state" required><br><br>
- <button type="submit">Submit</button>
- </form>
+<h2>UploadImage</h2>
+<form action="dbphp.php" method="post" enctype="multipart/form-data">
+<label for="name">ImageName:</label>
+<input type="text"name="name"required><br><br>
+<label for="image">ChooseImage:</label>
+<input type="file"name="image"accept="image/*"required><br><br>
+<button type="submit">Upload</button>
+</form>
 </body>
 </html>
 
+
 // sql query
-CREATE TABLE IF NOT EXISTS contacts (
+CREATE TABLE uploaded_images (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    name VARCHAR(255) NOT NULL,
-    class VARCHAR(100) NOT NULL,
-    age INT NOT NULL,
-    college VARCHAR(255) NOT NULL,
-    year VARCHAR(50) NOT NULL,
-    state VARCHAR(100) NOT NULL
+    image_name VARCHAR(255) NOT NULL,
+    image_data LONGBLOB NOT NULL,
+    upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
