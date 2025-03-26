@@ -1,26 +1,33 @@
+STORE AN IMAGE IN THE DATABASE USING PHP SCRIPT
 
-PHP File:
-
+PROGRAM:
+PHP CODE:
 <?php
-
+// Database connection
 $host = "localhost";
 $username = "root";
 $password = "";
-$database = "dbshriya";
+$database = "imagedb";
 
+// Create connection
 $conn = new mysqli($host, $username, $password, $database);
 
+// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
+// Check if form is submitted
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $image = $_FILES['image']['tmp_name'];
 
+    // Convert image to binary data
     $imgContent = addslashes(file_get_contents($image));
 
+    // Insert image into the database
     $sql = "INSERT INTO image_table (name, image) VALUES ('$name', '$imgContent')";
+
     if ($conn->query($sql) === TRUE) {
         echo "Image uploaded successfully.";
     } else {
@@ -28,22 +35,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
+// Fetch images from database
 $sql = "SELECT id, name, image FROM image_table";
 $result = $conn->query($sql);
+
 if ($result->num_rows > 0) {
     while ($row = $result->fetch_assoc()) {
         echo "<h3>" . htmlspecialchars($row['name']) . "</h3>";
-
+        // Corrected the image tag, fixed missing spaces and attributes
         echo '<img src="data:image/jpeg;base64,' . base64_encode($row['image']) . '" width="300"><br><br>';
     }
 } else {
     echo "No images found.";
 }
 
+// Close connection
 $conn->close();
 ?>
 
-HTML File:
+HTML CODE:
 
 <!DOCTYPE html>
 <html lang="en">
@@ -53,7 +63,7 @@ HTML File:
 </head>
 <body>
 <h2>UploadImage</h2>
-<form action="dbphp.php" method="post" enctype="multipart/form-data">
+<form action="insertimage.php" method="post" enctype="multipart/form-data">
 <label for="name">ImageName:</label>
 <input type="text"name="name"required><br><br>
 <label for="image">ChooseImage:</label>
@@ -64,10 +74,13 @@ HTML File:
 </html>
 
 
-// sql query
-CREATE TABLE uploaded_images (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    image_name VARCHAR(255) NOT NULL,
-    image_data LONGBLOB NOT NULL,
-    upload_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-);
+OUTPUT:
+
+HTML OUTPUT:
+
+
+
+
+PHP OUTPUT:
+
+

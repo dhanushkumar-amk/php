@@ -1,0 +1,22 @@
+WRIT A FUNCTION TO SORT AN ARRAY USING PHP
+
+PROGRAM:
+<?php
+function sortedArray($array) {
+    if (!is_array($array)) {
+        return "Input must be an array";
+    }
+    sort($array);
+    return $array;
+}
+
+$unsortedArray = array(5, 2, 9, 1, 7);
+$sortedArray = sortedArray($unsortedArray);
+echo "Sorted array: ";
+print_r($sortedArray);
+?>
+
+OUTPUT:
+
+
+

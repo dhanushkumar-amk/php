@@ -1,0 +1,26 @@
+CREATE A SIMPLE BIRTHDAY COUNTER SCRIPT WAS THE NUMBER OF DAYS
+
+PROGRAM:
+
+<?php
+
+$bday = "08-15";  // Birthday (MM-DD)
+$cyear = date("y");  // Current year (last 2 digits)
+$cdate = date("y-m-d");  // Current date (YY-MM-DD)
+
+$nbday = $cyear . "-" . $bday;  // Set next birthday date
+
+// If this year's birthday has already passed, move to next year
+if (strtotime($nbday) < strtotime($cdate)) {
+    $nbday = ($cyear + 1) . "-" . $bday;
+}
+
+$remainingdays = (strtotime($nbday) - strtotime($cdate)) / (60 * 60 * 24);  // Calculate remaining days
+
+echo "There are $remainingdays days left until the next birthday.";
+
+?>
+
+OUTPUT:
+
+

@@ -1,0 +1,25 @@
+WRITE A PHP SCRIPT FOR ARTHAMETIC OPERATION
+PROGRAM:
+<html>
+<head>
+<title>arithmetic operation</title>
+<body>
+	<?php
+	$n1=10;
+	$n2=5;
+	$n3=$n1+$n2;
+	echo"addition is",$n3;
+	$n3=$n1-$n2;
+	echo"subtraction is",$n3;
+	$n3=$n1*$n2;
+	echo"multiplication is",$n3;
+	$n3=$n1/$n2;
+	echo"division is",$n3;
+	?>
+</body>
+</head>
+</html>
+
+OUTPUT:
+
+

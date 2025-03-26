@@ -1,0 +1,63 @@
+WRITE A PHP SCRIPT TO WILL DISPLAY THE COLOURS
+
+PROGRAM:
+<!DOCTYPE html> 
+
+<html lang="en"> 
+
+<head> 
+
+    <meta charset="UTF-8"> 
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+
+    <title>Display Colors</title> 
+
+    <style> 
+
+        .color-box { 
+
+            width: 100px; 
+
+            height: 100px; 
+
+            display: inline-block; 
+
+            margin: 10px; 
+
+            border: 1px solid #000; 
+
+        } 
+
+    </style> 
+
+</head> 
+
+<body> 
+
+    <h1>Color Palette</h1> 
+
+    <?php 
+
+     
+
+    $colors = array("red", "blue", "green", "yellow", "purple", "orange", "pink", "brown", "black", "gray"); 
+
+    foreach ($colors as $color) { 
+
+        echo "<div class='color-box' style='background-color: $color;'></div>"; 
+
+    } 
+
+    ?> 
+
+</body> 
+
+</html>
+
+OUTPUT:
+
+
+
+
+

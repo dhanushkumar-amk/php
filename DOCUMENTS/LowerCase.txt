@@ -1,13 +1,17 @@
+STRINGS ARE LOWERCASE     
+
+PROGRAM :
 <?php
-$strings = array('Arun', 'aravind','Archana','Ananya',);
-foreach ($strings as $testcase) {
-if (ctype_lower($testcase)) {
-echo "Yes\n";
-}
-else
+ function isAllLowerCase($string)
 {
-echo "No\n";
+return $string===strtolower($string);
 }
-}
+$teststring="Welcome";
+echo isallLowerCase($teststring)? "All lowercase": "not all lowercase";
 ?>
+
+OUTPUT:
+
+
+
 

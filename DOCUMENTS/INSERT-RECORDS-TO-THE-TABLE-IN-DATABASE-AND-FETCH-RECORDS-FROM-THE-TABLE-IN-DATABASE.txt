@@ -1,0 +1,103 @@
+PROGRAM TO INSERT RECORDS TO THE TABLE IN DATABASE AND FETCH RECORDS FROM THE TABLE IN DATABASE
+
+PROGRAM:
+
+PHP CODE:
+
+<?php
+$host = "localhost";
+$username = "root";
+$password = "";
+$database = "imagedb";
+
+// Create connection
+$conn = new mysqli($host, $username, $password, $database);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if form is submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $id = intval($_POST['id']);  
+    $name = trim($_POST['name']); 
+    $age = intval($_POST['age']); 
+
+    if (!empty($id) && !empty($name) && $age > 0) {
+        // Prepare SQL statement
+        $stmt = $conn->prepare("INSERT INTO aswin_db (id, name, age) VALUES (?, ?, ?) 
+                                ON DUPLICATE KEY UPDATE name = ?, age = ?");
+        
+        // Check for errors
+        if (!$stmt) {
+            die("Prepare failed: " . $conn->error);
+        }
+
+        // Bind parameters
+        $stmt->bind_param("isisi", $id, $name, $age, $name, $age);
+
+        if ($stmt->execute()) {
+            echo "Record inserted/updated successfully.<br>";
+        } else {
+            echo "Error inserting record: " . $stmt->error;
+        }
+        $stmt->close();
+    } else {
+        echo "Invalid input. Please enter valid ID, Name, and Age.";
+    }
+}
+
+// Force commit before fetching records
+$conn->commit();
+
+// Fetch records from database
+$sql = "SELECT id, name, age FROM aswin_db";
+$result = $conn->query($sql);
+
+if ($result === false) {
+    die("Query failed: " . $conn->error);
+}
+
+if ($result->num_rows > 0) {
+    echo "<h2>Stored Records:</h2>";
+    while ($row = $result->fetch_assoc()) {
+        echo "<strong>ID:</strong> " . $row['id'] . " | <strong>Name:</strong> " . htmlspecialchars($row['name']) . " | <strong>Age:</strong> " . $row['age'] . "<br>";
+    }
+} else {
+    echo "No records found.";
+}
+
+// Close connection
+$conn->close();
+?>
+
+
+
+
+
+HTML CODE:
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Insert Data</title>
+</head>
+<body><h2>Enter Person Details</h2>
+<form action="detailtable.php" method="post">
+<label>ID:</label>
+<input type="number" name="id" required><br><br>
+<label>Name:</label>
+<input type="text" name="name" required><br><br>
+<label>Age:</label>
+<input type="number" name="age" required><br><br>
+<input type="submit" value="Submit">
+</form>
+</body>
+</html>
+
+OUTPUT:
+
+
+
+
