@@ -1,6 +1,4 @@
-STRINGS ARE LOWERCASE     
 
-PROGRAM :
 <?php
  function isAllLowerCase($string)
 {
@@ -11,7 +9,3 @@ echo isallLowerCase($teststring)? "All lowercase": "not all lowercase";
 ?>
 
 OUTPUT:
-
-
-
-
